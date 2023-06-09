@@ -1,5 +1,16 @@
+import { db } from "../db/db.js";
+import { processAndInsertData } from "./analytics/utils.js";
+
 //POST A TRANSACTION
-export const addSale = (req, res) => {};
+export const addSale = (req, res) => {
+  try {
+    processAndInsertData(req, res, "sales");
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
 export const addExpense = (req, res) => {};
 export const addCredit = (req, res) => {};
 
