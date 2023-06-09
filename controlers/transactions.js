@@ -11,8 +11,22 @@ export const addSale = (req, res) => {
   }
 };
 
-export const addExpense = (req, res) => {};
-export const addCredit = (req, res) => {};
+export const addExpense = (req, res) => {
+  try {
+    processAndInsertData(req, res, "expenses");
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+export const addCredit = (req, res) => {
+  try {
+    processAndInsertData(req, res, "credits");
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
 
 //FETCH A TRANSACTION
 export const fetchSale = (req, res) => {};
