@@ -1,10 +1,9 @@
-import { db } from "../db/db.js";
 import {
   processAndDeleteData,
   processAndFetchData,
   processAndInsertData,
   processAndUpdateData,
-} from "./analytics/utils.js";
+} from "./utils.js";
 
 //POST A TRANSACTION
 export const addSale = (req, res) => processAndInsertData(req, res, "sales");

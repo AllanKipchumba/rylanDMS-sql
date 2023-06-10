@@ -1,4 +1,4 @@
-import { db } from "../../db/db.js";
+import { db } from "../db/db.js";
 
 //POST TRANSACTION
 export const processAndInsertData = (req, res, tableName) => {
