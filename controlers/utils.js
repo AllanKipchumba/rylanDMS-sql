@@ -80,3 +80,29 @@ export const processAndDeleteData = (req, res, tableName) => {
     console.log(error);
   }
 };
+
+//FETCH A MONTH'S DATA
+export const processAndFetchMonthsData = (req, res, tableName) => {
+  try {
+    //get dates at the begining and the end of the requeted month and year
+    const { month, year } = req.body;
+    const startOfMonth = new Date(year, month - 1, 1);
+    const endOfMonth = new Date(year, month, 0, 23, 59, 59, 999);
+
+    const q = `SELECT * FROM ${tableName} WHERE transactionDate BETWEEN (?) AND (?)`;
+    db.query(q, [startOfMonth, endOfMonth], (err, data) => {
+      if (err) return res.status(500).json(err);
+
+      //returns month's totals
+      const totalAmount = data.reduce(
+        (sum, records) => sum + records.amount,
+        0
+      );
+
+      return res.status(200).json({ totalAmount, data });
+    });
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};

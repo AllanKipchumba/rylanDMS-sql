@@ -1,13 +1,15 @@
+import { processAndFetchMonthsData } from "../utils.js";
+
 export const monthSales = (req, res) => {
-  //return totals and records
+  return processAndFetchMonthsData(req, res, "sales");
 };
 
 export const monthExpenses = (req, res) => {
-  //return totals and records
+  return processAndFetchMonthsData(req, res, "expenses");
 };
 
 export const monthCredits = (req, res) => {
-  //return totals and records
+  return processAndFetchMonthsData(req, res, "credits");
 };
 
 export const monthsTransactionSummary = (req, res) => {
