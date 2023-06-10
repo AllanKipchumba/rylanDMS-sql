@@ -1,44 +1,35 @@
 import { db } from "../db/db.js";
-import { processAndInsertData } from "./analytics/utils.js";
+import {
+  processAndDeleteData,
+  processAndFetchData,
+  processAndInsertData,
+  processAndUpdateData,
+} from "./analytics/utils.js";
 
 //POST A TRANSACTION
-export const addSale = (req, res) => {
-  try {
-    processAndInsertData(req, res, "sales");
-  } catch (error) {
-    res.status(500).json(error);
-    console.log(error);
-  }
-};
+export const addSale = (req, res) => processAndInsertData(req, res, "sales");
+export const addExpense = (req, res) =>
+  processAndInsertData(req, res, "expenses");
+export const addCredit = (req, res) =>
+  processAndInsertData(req, res, "credits");
 
-export const addExpense = (req, res) => {
-  try {
-    processAndInsertData(req, res, "expenses");
-  } catch (error) {
-    res.status(500).json(error);
-    console.log(error);
-  }
-};
-export const addCredit = (req, res) => {
-  try {
-    processAndInsertData(req, res, "credits");
-  } catch (error) {
-    res.status(500).json(error);
-    console.log(error);
-  }
-};
-
-//FETCH A TRANSACTION
-export const fetchSale = (req, res) => {};
-export const fetchExpense = (req, res) => {};
-export const fetchCredit = (req, res) => {};
+/*FETCH A TRANSACTION*/
+export const fetchSale = (req, res) => processAndFetchData(req, res, "sales");
+export const fetchExpense = (req, res) =>
+  processAndFetchData(req, res, "expenses");
+export const fetchCredit = (req, res) =>
+  processAndFetchData(req, res, "credits");
 
 //UPDATE A TRANSACTION
-export const updateSale = (req, res) => {};
-export const updateExpense = (req, res) => {};
-export const updateCredit = (req, res) => {};
+export const updateSale = (req, res) => processAndUpdateData(req, res, "sales");
+export const updateExpense = (req, res) =>
+  processAndUpdateData(req, res, "expenses");
+export const updateCredit = (req, res) =>
+  processAndUpdateData(req, res, "credits");
 
 //DELETE A TRANSACTION
-export const deleteSale = (req, res) => {};
-export const deleteExpense = (req, res) => {};
-export const deleteCredit = (req, res) => {};
+export const deleteSale = (req, res) => processAndDeleteData(req, res, "sales");
+export const deleteExpense = (req, res) =>
+  processAndDeleteData(req, res, "expenses");
+export const deleteCredit = (req, res) =>
+  processAndDeleteData(req, res, "credits");
