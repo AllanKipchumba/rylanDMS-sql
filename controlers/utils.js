@@ -1,5 +1,15 @@
 import { db } from "../db/db.js";
 
+export function getStartAndEndOfMonth(month, year) {
+  const startOfMonth = new Date(year, month - 1, 1);
+  const endOfMonth = new Date(year, month, 0, 23, 59, 59, 999);
+
+  return {
+    startOfMonth,
+    endOfMonth,
+  };
+}
+
 //POST TRANSACTION
 export const processAndInsertData = (req, res, tableName) => {
   try {
@@ -84,12 +94,12 @@ export const processAndDeleteData = (req, res, tableName) => {
 //FETCH A MONTH'S DATA
 export const processAndFetchMonthsData = (req, res, tableName) => {
   try {
-    //get dates at the begining and the end of the requeted month and year
-    const { month, year } = req.body;
-    const startOfMonth = new Date(year, month - 1, 1);
-    const endOfMonth = new Date(year, month, 0, 23, 59, 59, 999);
-
+    const { startOfMonth, endOfMonth } = getStartAndEndOfMonth(
+      req.body.month,
+      req.body.year
+    );
     const q = `SELECT * FROM ${tableName} WHERE transactionDate BETWEEN (?) AND (?)`;
+
     db.query(q, [startOfMonth, endOfMonth], (err, data) => {
       if (err) return res.status(500).json(err);
 
@@ -105,4 +115,19 @@ export const processAndFetchMonthsData = (req, res, tableName) => {
     res.status(500).json(error);
     console.log(error);
   }
+};
+
+//FETCH MONTHS TRANSACTION SUMMARY
+export const processAndFetchMonthsSummary = (req, res) => {
+  const { startOfMonth, endOfMonth } = getStartAndEndOfMonth(
+    req.body.month,
+    req.body.year
+  );
+
+  const q = `SELECT
+    (SELECT SUM(amount) FROM sales WHERE transactionDate BETWEEN ? AND ?) AS totalSales,
+    (SELECT SUM(amount) FROM expenses WHERE transactionDate BETWEEN ? AND ?) AS totalExpenses,
+    (SELECT SUM(amount) FROM credits WHERE transactionDate BETWEEN ? AND ?) AS totalCredits`;
+
+  db.query(q, [startOfMonth, endOfMonth], (err, data) => {});
 };
