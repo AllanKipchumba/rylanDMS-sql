@@ -12,7 +12,9 @@ export const ourClients = (req, res) => {
 `;
     db.query(q, (err, data) => {
       if (err) return res.status(500).json(err);
-      return res.status(200).json(data);
+      const clientsServed = data.length;
+      const revenueGenerated = data.reduce((a, b) => a + Number(b.revenue), 0);
+      return res.status(200).json({ clientsServed, revenueGenerated, data });
     });
   } catch (error) {
     res.status(500).json(error);

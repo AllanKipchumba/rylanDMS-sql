@@ -10,10 +10,7 @@ import {
   clientTransactionHistory,
   ourClients,
 } from "../controlers/analytics/clients.js";
-import {
-  getBusinessStats,
-  getCashFlowRecord,
-} from "../controlers/analytics/business.js";
+// import { getCashFlowRecord } from "../controlers/analytics/business.js";
 
 const router = express.Router();
 
@@ -26,7 +23,6 @@ router.post("/month/creditors", monthCreditorTotals);
 router.get("/ourClients", ourClients);
 router.get("/:client", clientTransactionHistory);
 
-router.get("/stats", getBusinessStats);
-router.get("/cashflow", getCashFlowRecord);
+// router.get("/cashflow", getCashFlowRecord);
 
 export default router;
